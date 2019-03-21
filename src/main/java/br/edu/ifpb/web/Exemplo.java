@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package br.edu.ifpb;
+package br.edu.ifpb.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,15 +12,18 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Ricardo Job
  */
-@WebServlet(name = "calc",urlPatterns = {"/calc"})
-public class Controlador extends HttpServlet {
+@WebServlet(name = "Exemplo",urlPatterns = {"/exemplo"})
+public class Exemplo extends HttpServlet {
 
-    @Inject
-    private Calculadora calculadora;
-
-    @Inject
-    private EnviarNumeros enviar;
-
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     protected void processRequest(HttpServletRequest request,HttpServletResponse response)
         throws ServletException,IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -35,14 +32,10 @@ public class Controlador extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet calc</title>");
+            out.println("<title>Servlet Exemplo</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet calc at " + request.getContextPath() + "</h1>");
-            out.println("<p> antes</p>");
-//            out.println("<p>" + calculadora.somar(07,34) + "</p>");
-            enviar.enviar(12,12);
-            out.println("<p> depois </p>");
+            out.println("<h1>Servlet Exemplo at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -74,8 +67,17 @@ public class Controlador extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request,HttpServletResponse response)
         throws ServletException,IOException {
-        processRequest(request,response);
+        response.setContentType("application/json;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            out.println("{\n"
+                + "            \"nome\": \"Job\",\n"
+                + "            \"idade\":30\n"
+                + "        \n"
+                + "        }");
+        }
+
     }
+    
 
     /**
      * Returns a short description of the servlet.
@@ -88,3 +90,20 @@ public class Controlador extends HttpServlet {
     }// </editor-fold>
 
 }
+
+//        String uri = "http://localhost:8080/dac-webservice/api/produtos";
+//        Client client = ClientBuilder.newClient();
+        //register(new VendaAuthorization("admin", "mesmacoisa"));
+//        WebTarget root = client.target(uri); // root
+//        this.mensagem = root.request().get(String.class);
+//        JsonObject get = root.request().get(JsonObject.class);
+//        JsonReader reader = Json.createReader(
+//            new StringReader(mensagem)
+//        );
+//        JsonArray array = reader.readArray();
+//        //System.out.println("array = " + array);
+//        Jsonb create = JsonbBuilder.create();
+//        List<Produto> collect = array.stream()
+//                .map(obj->create.fromJson(obj.toString(), Produto.class))
+//                .collect(Collectors.toList());
+//        collect.forEach(System.out::println);
